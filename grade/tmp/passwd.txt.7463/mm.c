@@ -1,0 +1,11 @@
+0 0123456789
+1 sdfkj,wetd
+2 sdfl%rtmci
+3 fer$tfgchf
+4 sd#fetimlx
+5 ferter@tcy
+6 2kgdf!lkgc
+7 sdfe!rtchr
+8 fkd7jgtryf
+9 t5rylrktyc
+10 ertlktyr,o

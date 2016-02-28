@@ -1,0 +1,163 @@
+
+CS:APP Malloc Lab: Grading Sheet for mm-naive.c
+
+Part 1: Compiling the driver
+
+gcc -Wall -O2   -c -o mdriver.o mdriver.c
+gcc -Wall -O2   -c -o mm.o mm.c
+gcc -Wall -O2   -c -o memlib.o memlib.c
+gcc -Wall -O2   -c -o fsecs.o fsecs.c
+gcc -Wall -O2   -c -o fcyc.o fcyc.c
+gcc -Wall -O2   -c -o clock.o clock.c
+gcc -Wall -O2   -c -o ftimer.o ftimer.c
+gcc -Wall -O2 -o mdriver mdriver.o mm.o memlib.o fsecs.o fcyc.o clock.o ftimer.o
+
+
+Part 2: Running the driver with the -g autograder option
+
+ERROR: mem_sbrk failed. Ran out of memory...
+ERROR: mem_sbrk failed. Ran out of memory...
+ERROR: mem_sbrk failed. Ran out of memory...
+ERROR: mem_sbrk failed. Ran out of memory...
+ERROR: mem_sbrk failed. Ran out of memory...
+Team Name:naive
+Member 1 :Harry Bovik:bovik@cs
+Using default tracefiles in /afs/cs/project/ics/im/labs/malloclab/traces/
+Measuring performance with gettimeofday().
+ERROR [trace 4, line 7673]: mm_malloc failed.
+ERROR [trace 5, line 1662]: mm_malloc failed.
+ERROR [trace 6, line 1780]: mm_malloc failed.
+ERROR [trace 9, line 1705]: mm_realloc failed.
+ERROR [trace 10, line 6562]: mm_realloc failed.
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   23%    5694  0.000474 12023
+ 1       yes   19%    5848  0.000486 12038
+ 2       yes   30%    6648  0.000550 12089
+ 3       yes   40%    5380  0.000450 11966
+ 4        no     -       -         -     -
+ 5        no     -       -         -     -
+ 6        no     -       -         -     -
+ 7       yes   55%   12000  0.001122 10691
+ 8       yes   51%   24000  0.003167  7578
+ 9        no     -       -         -     -
+10        no     -       -         -     -
+Total            -       -         -     -
+
+Terminated with 5 errors
+correct:6
+perfidx:0
+
+
+Part 3: Grade
+
+Correctness:  11  /  20 (correct traces = 6)
+Performance:   2  /  35 (performance index = 0)
+Style:            /  10
+
+Total:            /  65
+
+Part 4: Handin file mm-naive.c
+
+/*
+ * mm-naive.c - The fastest, least memory-efficient malloc package.
+ * 
+ * In this naive approach, a block is allocated by simply incrementing 
+ * the brk pointer.  A block is pure payload. There are no headers or footers.
+ * Blocks are never coalesced or reused. Realloc is implemented 
+ * directly using mm_malloc and mm_free.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <unistd.h>
+
+#include "mm.h"
+#include "memlib.h"
+
+/* single word (4) or double word (8) alignment */
+#define ALIGNMENT 8
+
+/* rounds up to the nearest multiple of ALIGNMENT */
+#define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
+
+team_t team = {
+    /* Team name */
+    "naive",
+    /* First member's full name */
+    "Harry Bovik",
+    /* First member's email address */
+    "bovik@cs",
+    /* Second member's full name (leave blank if none) */
+    "",
+    /* Second member's email address (leave blank if none) */
+    ""
+};
+
+#define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
+
+/* 
+ * mm_init - initialize the malloc package.
+ */
+int mm_init(void)
+{
+    return 0;
+}
+
+/* 
+ * mm_malloc - Allocate a block by incrementing the brk pointer.
+ *     Always allocate a block whose size is a multiple of the alignment.
+ */
+void *mm_malloc(size_t size)
+{
+    int newsize = ALIGN(size + SIZE_T_SIZE);
+    void *p = mem_sbrk(newsize);
+    if ((int)p < 0)
+	return NULL;
+    else {
+        *(size_t *)p = size;
+        return (void *)((char *)p + SIZE_T_SIZE);
+    }
+}
+
+/*
+ * mm_free - Freeing a block does nothing.
+ */
+void mm_free(void *ptr)
+{
+}
+
+/*
+ * mm_realloc - Implemented simply in terms of mm_malloc and mm_free
+ */
+void *mm_realloc(void *ptr, size_t size)
+{
+    void *oldptr = ptr;
+    void *newptr;
+    size_t copySize;
+    
+    newptr = mm_malloc(size);
+    if (newptr == NULL)
+      return NULL;
+    copySize = *(size_t *)((char *)oldptr - SIZE_T_SIZE);
+    if (size < copySize)
+      copySize = size;
+    memcpy(newptr, oldptr, copySize);
+    mm_free(oldptr);
+    return newptr;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

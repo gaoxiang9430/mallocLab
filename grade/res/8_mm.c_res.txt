@@ -1,0 +1,26 @@
+Team Name:group 8: 
+Member 1 :zwh
+Member 2 :lj
+Member 3 :cxw
+Using default tracefiles in ../traces/
+Measuring performance with a cycle counter.
+Processor clock rate ~= 3192.9 MHz
+
+Results for mm malloc:
+trace  valid  util     ops      secs  Kops
+ 0       yes   99%    5694  0.000263 21673
+ 1       yes   99%    5848  0.000222 26345
+ 2       yes  100%    6648  0.000235 28232
+ 3       yes  100%    5380  0.000186 28987
+ 4       yes   88%   14400  0.000212 68026
+ 5       yes   96%    4800  0.000391 12284
+ 6       yes   95%    4800  0.000402 11949
+ 7       yes   89%   12000  0.000229 52332
+ 8       yes   90%   24000  0.000389 61696
+ 9       yes   57%   14401  0.000318 45256
+10       yes   90%   14401  0.000202 71357
+Total          91%  112372  0.003048 36864
+
+Perf index = 55 (util) + 40 (thru) = 95/100
+correct:11
+perfidx:95

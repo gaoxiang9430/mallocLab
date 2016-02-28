@@ -1,0 +1,7 @@
+filename="huahua_mm.c"
+import subprocess
+var = "/usr/bin/perl"
+subprocess.call(["perl", "grade-malloclab.pl",'-f', filename,var])
+print "I am running"
+import os
+os.path.getsize("huahua_mm.c")
